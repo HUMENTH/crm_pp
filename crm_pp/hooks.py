@@ -269,13 +269,13 @@ fixtures = [
     {
         "dt": "Custom Field",
         "filters": [
-            ["dt", "in", ["Lead", "Opportunity", "Customer", "Contact"]]
+            ["dt", "in", ["Lead", "Opportunity", "Customer", "Contact", "ToDo"]]
         ]
     },
     {
         "dt": "Property Setter",
         "filters": [
-            ["doc_type", "in", ["Lead", "Opportunity", "Customer", "Contact"]]
+            ["doc_type", "in", ["Lead", "Opportunity", "Customer", "Contact", "ToDo"]]
         ]
     },
     "Client Script",
