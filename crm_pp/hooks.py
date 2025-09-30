@@ -146,14 +146,18 @@ app_license = "mit"
 # }
 
 # hooks.py
-# doc_events = {
+doc_events = {
 #     "Lead": {
 #         "validate": "crm_pp.lead_validations.validate_lead_phone"
 #     },
 #     "Lead": {
 #         "before_validate": "crm_pp.lead_validations.allow_duplicate_email"
-#     }
-# }
+#     },
+    "ToDo": {
+        "after_insert": "crm_pp.crm_pp.custom_lead.update_lead_assign_date"
+    }
+}
+
 
 
 # Scheduled Tasks
