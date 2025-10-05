@@ -43,7 +43,7 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+# doctype_js = {"Lead" : "public/js/crm_note.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -52,6 +52,10 @@ app_license = "mit"
 # ------------------
 # include app icons in desk
 # app_include_icons = "crm_pp/public/icons.svg"
+app_include_js = [
+    "/assets/crm_pp/js/crm_note.js"
+]
+
 
 # Home Pages
 # ----------
@@ -130,8 +134,20 @@ app_license = "mit"
 # Override standard doctype classes
 
 # override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
+# 	"CRM Note": "crm_pp.crm_pp.crm_note_override.CustomCRMNote"
+
 # }
+
+
+
+
+override_whitelisted_methods = {
+    "erpnext.crm.utils.add_note": "crm_pp.crm_pp.crm_note_override.add_note",
+    "erpnext.crm.utils.edit_note": "crm_pp.crm_pp.crm_note_override.edit_note",
+    "erpnext.crm.utils.delete_note": "crm_pp.crm_pp.crm_note_override.delete_note",
+}
+
+
 
 # Document Events
 # ---------------
@@ -153,9 +169,14 @@ doc_events = {
 #     "Lead": {
 #         "before_validate": "crm_pp.lead_validations.allow_duplicate_email"
 #     },
-    "ToDo": {
-        "after_insert": "crm_pp.crm_pp.custom_lead.update_lead_assign_date"
+    # "ToDo": {
+    #     "after_insert": "crm_pp.crm_pp.custom_lead.update_lead_assign_date"
+    # },
+    "Lead": {
+        "on_update": "crm_pp.crm_pp.lead_eamil.send_lead_owner_notification"
     }
+
+
 }
 
 
