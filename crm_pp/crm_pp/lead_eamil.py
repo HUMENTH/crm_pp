@@ -2,10 +2,15 @@ import frappe
 from frappe.utils import get_url_to_form
 
 def send_lead_owner_notification(doc, method=None):
-    if not doc.get("__islocal"):
-        previous_owner = frappe.db.get_value("Lead", doc.name, "lead_owner")
-        if previous_owner == doc.lead_owner:
-            return
+    """Send email only when Lead Owner changes"""
+
+    previous_doc = doc.get_doc_before_save()
+    
+    if not previous_doc:
+        return
+
+    if doc.lead_owner == previous_doc.lead_owner:
+        return
 
     if not doc.lead_owner:
         return
@@ -18,6 +23,7 @@ def send_lead_owner_notification(doc, method=None):
     )
 
     if not assigned_user or not assigned_user.enabled:
+
         return
 
     lead_name = doc.lead_name or ""
