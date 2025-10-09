@@ -53,7 +53,7 @@ app_license = "mit"
 # include app icons in desk
 # app_include_icons = "crm_pp/public/icons.svg"
 app_include_js = [
-    "/assets/crm_pp/js/crm_note.js","assets/crm_pp/js/custom_communication.js"
+    "assets/crm_pp/js/custom_communication.js",
 ]
 
 # app_include_js = "crm_pp/public/js/custom_communication.js"
