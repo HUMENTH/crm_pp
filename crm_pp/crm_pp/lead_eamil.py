@@ -5,11 +5,8 @@ def send_lead_owner_notification(doc, method=None):
     """Send email only when Lead Owner changes"""
 
     previous_doc = doc.get_doc_before_save()
-    
-    if not previous_doc:
-        return
 
-    if doc.lead_owner == previous_doc.lead_owner:
+    if not previous_doc or doc.lead_owner == previous_doc.lead_owner:
         return
 
     if not doc.lead_owner:
@@ -23,30 +20,30 @@ def send_lead_owner_notification(doc, method=None):
     )
 
     if not assigned_user or not assigned_user.enabled:
-
         return
 
-    lead_name = doc.lead_name or ""
-    company_name = doc.company_name or ""
+    lead_name = doc.lead_name or "Unnamed Lead"
+    company_name = doc.company_name or "N/A"
     lead_link = get_url_to_form("Lead", doc.name)
 
     assigner = frappe.get_doc("User", frappe.session.user)
-    assigner_email = assigner.email or frappe.utils.get_formatted_email(assigner.name)
+    assigner_name = assigner.full_name or assigner.first_name or assigner.name
 
-    subject = f"Lead Assigned: {lead_name or 'Unnamed Lead'}"
+    subject = f"Lead: {lead_name} has been assigned to you."
+
+    # Email body
     body = f"""
-        <p>Dear {assigned_user.full_name},</p>
-        <p>A new lead has been assigned to you.</p>
-        <p><b>Lead:</b> {lead_name or 'N/A'}<br>
-        <b>Company:</b> {company_name or 'N/A'}</p>
-        <p><a href="{lead_link}">Click here to open this Lead</a></p>
+        <p>Lead: <b>{lead_name}</b>, {company_name} has been assigned to you.</p>
+        <p>To view the details of this lead in crm.promptpersonnel.com, click on the following link:<br>
+        <a href="{lead_link}">{lead_link}</a></p>
         <br>
-        <p>Regards,<br>Prompt Personnel Pvt. Ltd.</p>
+        <p>Regards,<br>
+        Prompt Personnel Pvt. Ltd.</p>
     """
 
     frappe.sendmail(
         recipients=[assigned_user.email],
-        sender=assigner_email,
+        sender=frappe.utils.get_formatted_email(assigner_name),
         subject=subject,
         message=body,
         reference_doctype="Lead",

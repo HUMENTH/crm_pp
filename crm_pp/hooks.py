@@ -53,10 +53,10 @@ app_license = "mit"
 # include app icons in desk
 # app_include_icons = "crm_pp/public/icons.svg"
 app_include_js = [
-    "/assets/crm_pp/js/crm_note.js"
+    "/assets/crm_pp/js/crm_note.js","assets/crm_pp/js/custom_communication.js"
 ]
 
-
+# app_include_js = "crm_pp/public/js/custom_communication.js"
 
 
 # Home Pages
@@ -135,19 +135,22 @@ app_include_js = [
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"CRM Note": "crm_pp.crm_pp.crm_note_override.CustomCRMNote"
-
-# }
 
 
 
+override_doctype_class = {
+	"CRM Note": "crm_pp.crm_pp.crm_note_override.CRMNote"
 
-override_whitelisted_methods = {
-    "erpnext.crm.utils.add_note": "crm_pp.crm_pp.crm_note_override.add_note",
-    "erpnext.crm.utils.edit_note": "crm_pp.crm_pp.crm_note_override.edit_note",
-    "erpnext.crm.utils.delete_note": "crm_pp.crm_pp.crm_note_override.delete_note",
 }
+
+
+
+
+# override_whitelisted_methods = {
+#     "erpnext.crm.utils.add_note": "crm_pp.crm_pp.crm_note_override.add_note",
+#     "erpnext.crm.utils.edit_note": "crm_pp.crm_pp.crm_note_override.edit_note",
+#     "erpnext.crm.utils.delete_note": "crm_pp.crm_pp.crm_note_override.delete_note",
+# }
 
 
 
@@ -175,7 +178,8 @@ doc_events = {
     #     "after_insert": "crm_pp.crm_pp.custom_lead.update_lead_assign_date"
     # },
     "Lead": {
-        "on_update": "crm_pp.crm_pp.lead_eamil.send_lead_owner_notification"
+        "on_update": "crm_pp.crm_pp.lead_eamil.send_lead_owner_notification",
+        "before_save":"crm_pp.crm_pp.lead_owner.save_previous_owner"
     }
 
 
