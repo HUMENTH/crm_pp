@@ -54,6 +54,9 @@ app_license = "mit"
 # app_include_icons = "crm_pp/public/icons.svg"
 app_include_js = [
     "assets/crm_pp/js/custom_communication.js",
+    # "assets/crm_pp/js/crm_note.js",
+    # "/assets/my_app/js/demo.js"
+
 ]
 
 # app_include_js = "crm_pp/public/js/custom_communication.js"
@@ -138,10 +141,10 @@ app_include_js = [
 
 
 
-override_doctype_class = {
-	"CRM Note": "crm_pp.crm_pp.crm_note_override.CRMNote"
+# override_doctype_class = {
+# 	"CRM Note": "crm_pp.crm_pp.crm_note_override.CRMNote"
 
-}
+# }
 
 
 
@@ -179,7 +182,7 @@ doc_events = {
     # },
     "Lead": {
         "on_update": "crm_pp.crm_pp.lead_eamil.send_lead_owner_notification",
-        "before_save":"crm_pp.crm_pp.lead_owner.save_previous_owner"
+        "after_insert": "crm_pp.crm_pp.create_customer_from_lead.create_customer_from_lead"
     }
 
 
