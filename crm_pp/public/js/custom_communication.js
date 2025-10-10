@@ -1,15 +1,15 @@
-
 const OriginalCommunicationComposer = frappe.views.CommunicationComposer;
 
 frappe.views.CommunicationComposer = class extends OriginalCommunicationComposer {
 	get_fields() {
 		let me = this;
 
-		if (this.frm?.doc?.doctype !== "Lead") {
+		// Run custom fields only for Lead and Opportunity
+		if (!["Lead", "Opportunity"].includes(this.frm?.doc?.doctype)) {
 			return super.get_fields();
 		}
 
-		// console.log(" Custom get_fields() active for Lead...");
+		console.log("Custom get_fields() active for Lead/Opportunity...");
 
 		const fields = [
 			{
@@ -106,7 +106,7 @@ frappe.views.CommunicationComposer = class extends OriginalCommunicationComposer
 				label: __("Attach Document Print"),
 				fieldtype: "Check",
 				fieldname: "attach_document_print",
-				hidden: 1, 
+				hidden: 1,
 			},
 			{
 				label: __("Select Print Format"),
@@ -164,11 +164,9 @@ frappe.views.CommunicationComposer = class extends OriginalCommunicationComposer
 	}
 
 	setup_email() {
-		if (this.frm?.doc?.doctype !== "Lead") {
+		if (!["Lead", "Opportunity"].includes(this.frm?.doc?.doctype)) {
 			return super.setup_email();
 		}
-
-		// console.log(" Custom setup_email running for Lead...");
 
 		const fields = this.dialog.fields_dict;
 
@@ -185,4 +183,3 @@ frappe.views.CommunicationComposer = class extends OriginalCommunicationComposer
 		}
 	}
 };
-
